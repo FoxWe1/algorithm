@@ -1,0 +1,50 @@
+/*
+  1、构建链表
+  2、输出倒数第n个数。思路：双指针，初始距离为n，当后一个指针指向尾部时，前一个指针就指向了倒数第n个数
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct ListNode {
+    int m_nkey;
+    struct ListNode* m_pNext;
+} ListNode;
+
+
+int main() {
+    ListNode* head = (ListNode*)malloc(sizeof(ListNode));
+    head->m_pNext = NULL;
+    int n, i, n_temp, n_reverse;
+    while (scanf("%d", &n) != EOF) {
+        ListNode* p = head;
+        ListNode* temp = NULL;
+        for (i = 0; i < n; i++) {
+
+            scanf("%d", &n_temp);
+            p->m_nkey = n_temp;
+            temp = (ListNode*)malloc(sizeof(ListNode));
+            temp->m_pNext = NULL;
+            p->m_pNext = temp;
+            p = p->m_pNext;
+
+        }//initial link
+
+        scanf("%d", &n_reverse);
+
+        p = head;
+        ListNode* goal = head;
+
+        for (i = 0; i < n_reverse; i++) {
+            p = p->m_pNext;
+        }
+
+        while (p->m_pNext != NULL) {
+            p = p->m_pNext;
+            goal = goal->m_pNext;
+        }
+
+        printf("%d\n", goal->m_nkey);
+    }
+
+}
