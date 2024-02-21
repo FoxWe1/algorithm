@@ -1,0 +1,198 @@
+/*
+初始化一个符号栈，一个数字栈。数字直接放进数字栈；符号进栈前，先判断：
+    （1）如果是'('、'['、'{'，直接入栈；
+    （2）如果是'+'，再判断它是正号（一般不会有这种情况）还是加号
+（只有两种情况会是正号：一是符号位于表达式字符串的首位，二是符号紧跟在'('、'['、'{'的后面），如果是正号则直接忽略；如果是加号，则看符号栈栈顶是不是'-'、'*'、'/'：如果
+不是，则将符号入栈；如果是，则进行运算：从数字栈取出两个数，结合符号栈顶的符号进行运算，并将结果存放进数字栈。重复操作直到符号栈顶不是'-'、'*'、'/'。
+    （3）如果是'-'，再判断是负号还是减号（只有两种情况是负号，和正号的判断机制一样）：如果是负号，则读出紧接着的数字，并将数字取相反数存放进数字栈，负号不放进符号栈；
+如果是减号，则和加号的处理方式一样。
+    （4）如果是'*'，则看符号栈顶是不是'/'：如果是，则进行计算（计算方式如上文所述），重复操作直到不满足条件，最后将'*'入栈；如果不是，则直接将'*'入栈。
+    （5）如果是'/'，处理方式和'*'一样。（6）如果是')'、']'、'}'，则进行计算，直到符号栈顶元素是对应类型的左括号，然后再将这个左括号出栈。上述工作做完后，判断符号栈是否
+为空，如果不为空则进行计算直到符号栈为空，最后数字栈剩下的一个数就是最终结果
+
+*/
+
+
+#include <stdio.h>
+
+short compute(short num1,short num2,char op)   //calculate two numbers
+{
+    short answer;
+    switch(op)
+    {
+        case'+':
+            answer = num1 + num2;
+            break;
+        case'-':
+            answer = num1-num2;
+            break;
+        case'*':
+            answer = num1*num2;
+            break;
+        case '/':
+            answer = num1/num2;
+            break;
+
+    }
+    return answer;
+}
+
+
+int main(void)
+{
+    char str[1001] = {0};
+    char s_stack[1001] = {'0'};
+    short n_stack[1001]= {0};
+    short si = 0,ni = 0,i = 0;
+    short temp,num1,num2;
+
+    fgets(str,1001,stdin);//1001:include the '\0' end character
+
+    while(str[i]!='\n'&&str[i]!='\0') //not reach the string end
+    {
+        while(str[i]=='('||str[i] == '['||str[i]=='{')
+        {
+            s_stack[si++] = str[i];
+            i++;
+        }
+        if(str[i]=='-')
+        {
+            if(i==0||str[i-1]=='('||str[i-1]=='['||str[i-1]=='{') //represent minus
+            {
+                temp = 0;
+                i++;
+                while(str[i]>='0'&&str[i]<='9')
+                {
+                    temp = temp*10+str[i]-'0';
+                    i++;
+                }
+                n_stack[ni++] = 0-temp;
+            }
+            else
+            {
+                while(si>0&&(s_stack[si-1]=='-'||s_stack[si-1]=='*'||s_stack[si-1]=='/'))
+                {
+                    num2 = n_stack[--ni];
+                    num1 = n_stack[--ni];
+                    n_stack[ni++] = compute(num1,num2,s_stack[--si]);
+                }
+                s_stack[si++] = '-';
+                i++;
+            }
+
+        }
+
+        if(str[i]=='+')
+        {
+            if(i==0||str[i-1]=='{'||str[i-1]=='('||str[i-1]=='[')
+                i++;      //represent +2,just pass (in front of + is not a number)
+            else
+            {
+                while (si>0&&(s_stack[si-1]=='-'||s_stack[si-1]=='*'||s_stack[si-1]=='/'))
+                {
+                    num2 = n_stack[--ni];
+                    num1 = n_stack[--ni];
+                    n_stack[ni++] = compute(num1,num2,s_stack[--si]);
+
+                }
+                s_stack[si++] = '+';
+                i++;
+            }
+
+        }
+
+        if(str[i]=='*')
+        {
+            while(si>0&&s_stack[si-1]=='/')
+            {
+                num2 = n_stack[--ni];
+                num1 = n_stack[--ni];
+                n_stack[ni++] = compute(num1,num2,s_stack[--si]);
+
+            }
+
+            s_stack[si++] = '*';
+            i++;
+        }
+
+        if(str[i]=='/')
+        {
+            while(si>0&&s_stack[si-1]=='/')
+            {
+                num2 = n_stack[--ni];
+                num1 = n_stack[--ni];
+                n_stack[ni++] = compute(num1,num2,s_stack[--si]);
+            }
+            s_stack[si++] = '/';
+            i++;
+        }
+
+
+        if(str[i]>='0'&&str[i]<='9')  //to trans number to n_stack
+        {
+            temp = 0;
+            while(str[i]>='0'&&str[i]<='9')
+            {
+                temp = temp*10+str[i]-'0';
+                i++;
+            }
+            n_stack[ni++] = temp;
+
+        }
+        if(str[i]==')')
+        {
+            while(s_stack[si-1]!='(')
+            {
+                num2 = n_stack[--ni];
+                num1 = n_stack[--ni];
+                n_stack[ni++]=compute(num1,num2,s_stack[--si]);
+            }
+            si--;
+            i++;
+        }
+
+        if(str[i]==']')
+        {
+            {
+                while(s_stack[si-1]!='[')
+                {
+                    num2 = n_stack[--ni];
+                    num1 = n_stack[--ni];
+                    n_stack[ni++]=compute(num1,num2,s_stack[--si]);
+                }
+                si--;
+                i++;
+            }
+
+
+        }
+
+        if(str[i] == '}')
+        {
+                while(s_stack[si-1]!='{')
+                {
+                    num2 = n_stack[--ni];
+                    num1 = n_stack[--ni];
+                    n_stack[ni++]=compute(num1,num2,s_stack[--si]);
+                }
+                si--;
+                i++;
+
+        }
+
+    }
+
+    while (si>0)
+    {
+        num2 = n_stack[--ni];
+        num1 = n_stack[--ni];
+        n_stack[ni++] = compute(num1,num2,s_stack[--si]);
+    }
+
+    printf("%d",n_stack[--ni]);
+    return 0;
+
+}
+
+
+
