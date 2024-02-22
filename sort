@@ -20,6 +20,27 @@ void bubble_sort(int *p,int length)
 
 }
 
+//--------------------------------------------insert sort -------------------------------
+
+void insert_sort(int *p,int length)
+{
+   int i,temp,j;
+
+   for(i = 1;i<length;i++)
+   {
+        temp = p[i];
+        j = i-1;
+        while(j>=0&&p[j]>temp)
+        {
+            p[j+1] = p[j];
+            j--;
+        }
+        p[j+1] = temp;
+
+   }
+
+}
+
 int main()
 {
     int n,i;
