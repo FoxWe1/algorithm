@@ -44,6 +44,35 @@ void insert_sort(int *p,int length)
 
 }
 
+//----------------------------------------shell sort----------------------------------
+//希尔排序是插入排序的进化版时间复杂度突破n^2  gap 是精华，这里的算法实现不是按照gap来分一组，一组一组的
+//插入排序做完，从for循环可以看出，当i++后，并不是原gap组的元素
+void shell_sort(int *p,int length)
+{
+    int gap = length/2;
+    int i,j,temp;
+    while(gap>=1)
+    {
+        for(i = gap;i<length;i++)
+        {
+            temp = p[i];
+            j = i-gap;
+            while(j>=0&&p[j]>temp)
+            {
+                p[j+gap] = p[j];
+                j = j-gap;
+            }
+            p[j+gap] = temp;
+
+        }
+        gap = gap/2;
+    }
+
+}
+
+
+
+
 int main()
 {
     int n,i;
