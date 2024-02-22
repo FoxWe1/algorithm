@@ -1,5 +1,6 @@
 //-------------------------------------------------------bubble sort------------------------------------------------------
 
+
 void bubble_sort(int *p,int length)
 {
     int i,j,temp;
@@ -21,6 +22,8 @@ void bubble_sort(int *p,int length)
 }
 
 //--------------------------------------------insert sort -------------------------------
+//like sort a hand of cards,when add a new one(i move forward),move the number who bigger than p[i] to the right
+//especially notify the begining,i starts at 1,not 0,and j must above or equal 0
 
 void insert_sort(int *p,int length)
 {
