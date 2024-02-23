@@ -2,6 +2,9 @@
 
 
 //------------------------------------------求最大公约数与最小公倍数--------------------------
+//细节：1、因为a和b要变，所以要先用p存取a*b的值，最后p/a是为求最小公倍数。
+//     2、跳出循环的条件是b不为0，即除数不为0
+
 int main()
 {
     int a,b,r;
@@ -13,14 +16,14 @@ int main()
         b = temp;
     }
 
-    int multiple = a*b;
-    while(b!=0)
+    int p = a*b; //细节1
+    while(b!=0) //细节2
     {
         r = a%b;
         a = b;
         b = r;
     }
 
-    printf("divisor = %d,mutipule=%d",a,multiple/a);
+    printf("divisor = %d,mutipule=%d",a,p/a);
     return 0;
 }
