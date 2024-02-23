@@ -114,7 +114,7 @@ int main()
         scanf("%d",&p[i]);
     }
 
-    bubble_sort(p,n);
+    //bubble_sort(p,n);   //way of sort
 
     for(i = 0;i<n;i++)
     {
