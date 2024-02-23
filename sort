@@ -74,6 +74,7 @@ void shell_sort(int *p,int length)
 //快排用的是递归，其中Partition函数的目的是，将当前low到high范围的第一个数定位到他有序后该有的位置
 //quick sort函数调用Partition
 //注意主函数调用quicksort时，参数为p,0,n-1而不是n
+//quick sort函数调用Parition函数时，传入的参数也是pivot-1和pivot+1而不是pivot本身
 nt Paritition(int *p,int low,int high)
 {
     int target =p[low];
