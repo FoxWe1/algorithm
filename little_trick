@@ -27,3 +27,36 @@ int main()
     printf("divisor = %d,mutipule=%d",a,p/a);
     return 0;
 }
+
+//-------------------------------------统计单词个数--------------------------------------
+//使用w，相当于上锁的过程，当str不为‘ ’时，遇到第一个就把w设为1，之后再遇到不为‘ ’时，sum不会+1
+//直到再次遇到‘ ’，再解锁
+//gets不够安全，要fgets(*buffer,int length,*input)才安全
+//
+#include <stdio.h>
+
+int main() {
+	
+	char str[255]={0};
+	
+	//gets(str);//使用gets可将带空格的整行字符串读入
+    fgets(str,254,stdin);
+	
+	int w=0,sum=0;
+	
+	for(int i=0;str[i]!='\0';i++){
+		if(str[i]!=' '){
+			if(w==0){
+				w=1;
+				sum++;
+			}
+		}
+		else{
+			w=0;
+		}
+	} 
+	
+	printf("%d",sum);
+	
+	return 0;
+}
