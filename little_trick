@@ -40,7 +40,7 @@ int main() {
 	char str[255]={0};
 	
 	//gets(str);//使用gets可将带空格的整行字符串读入
-   	 fgets(str,254,stdin);	//fgets包含最后的'\0'，最多录入length-1个显式字符串
+   	 fgets(str,254,stdin);	//fgets包含最后的'\0'，最多录入254-1个显式字符串
 	
 	int w=0,sum=0;
 	
@@ -141,6 +141,30 @@ int main() {
     scanf("%d",&n); //输入的是原始汉诺塔的个数
 
     move(n,1,2,3);//1号柱为start，2号柱为temp，3号柱为end
+
+	return 0;
+}
+
+//------------------------------------回文数---------------------------
+//用首尾双指针，往中间靠来比较
+
+int main() {
+
+    char a[255];
+    fgets(a,255,stdin);
+    int len = strlen(a);
+    int start=0,tail=len-2;//特别注意：fgets()函数会将最后的换行符也读入，所以strlen会比实际长度多一位
+    for(;start<len/2;start++,tail--)
+    {
+        if(a[start]!=a[tail])
+        {
+            printf("it is not \n");
+            return 0;
+        }
+    }
+
+    printf("yes,it is ");
+
 
 	return 0;
 }
