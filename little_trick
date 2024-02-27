@@ -60,3 +60,53 @@ int main() {
 	
 	return 0;
 }
+
+//-------------------------------------------杨辉三角------------------------------
+//注意动态声明二维数组。
+//杨辉三角的规律是从第三行起，除去第一列和最后一列，其余元素为i-1行j-1列和i-1行j列之和
+
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int main() {
+    int N,i,j;
+    scanf("%d",&N); 
+    int **yanghui_triangle = (int **)malloc(N*sizeof(int *)); //直接int yh_triangle[N][N]={1}是错误的
+    for(i  = 0;i<N;i++)
+    {
+        yanghui_triangle[i] = (int *)malloc((i+1)*sizeof(int));
+    }
+
+    //initiate yanghui_triangle
+    for(i = 0;i<N;i++)
+    {   for(j = 0;j<=i;j++)
+        {
+            yanghui_triangle[i][j] = 1;
+
+        }
+    }
+
+
+    for(i = 2;i<N;i++)
+    {
+        for(j = 1;j<i;j++)
+        {
+            yanghui_triangle[i][j] = yanghui_triangle[i-1][j-1]+yanghui_triangle[i-1][j];
+        }
+
+    }
+
+
+     //show yanghui_triangle
+     for(i = 0;i<N;i++)
+    {   for(j = 0;j<=i;j++)
+        {
+            printf("%d\t",yanghui_triangle[i][j]);
+        }
+        printf("\n");
+    }
+
+	return 0;
+}
+
