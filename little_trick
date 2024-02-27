@@ -110,3 +110,40 @@ int main() {
 	return 0;
 }
 
+
+
+//-----------------------------------------汉诺塔---------------------------------------
+//经典递归题，运用递归：1、找出递归终止条件，即n为1时
+#include <stdio.h>
+#include <stdlib.h>
+
+#define print(a,b) printf("%d-->%d\n",a,b) //用define来宏定义一个函数
+
+void move(int n,int start,int temp,int end)
+{
+    if(n == 1)
+    {
+        print(start,end);//这里的print实际上就是移动。当n为1时，直接从start移动到end即可
+    }
+
+    else
+    {
+        move (n-1,start,end,temp); //1、将其上方的n-1块通过end作为中转移动到temp处
+        print(start,end);	//2、将暴露在最上方的第n块直接移动到end处
+        move(n-1,temp,end,start);//3、n-1个在temp，所以temp作为start，经过end作为temp移动到start处
+    }
+}
+
+
+
+int main() {
+    int n;
+    scanf("%d",&n); //输入的是原始汉诺塔的个数
+
+    move(n,1,2,3);//1号柱为start，2号柱为temp，3号柱为end
+
+	return 0;
+}
+
+
+
