@@ -4,7 +4,7 @@
 void bubble_sort(int *p,int length)
 {
     int i,j,temp;
-    for(i = 0;i<length;i++)
+    for(i = 0;i<length-1;i++) //这里i不必循环到最后一个，当前面的都排好后，第一个自然就在最小的位置了
     {
         for(j = 0;j<length-i-1;j++)
         {
