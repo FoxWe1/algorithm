@@ -1,6 +1,4 @@
-//-------------------------------------------------------bubble sort------------------------------------------------------
-
-
+//--------------------------------------------bubble sort--------------------------------------
 void bubble_sort(int *p,int length)
 {
     int i,j,temp;
@@ -21,10 +19,33 @@ void bubble_sort(int *p,int length)
 
 }
 
-//--------------------------------------------insert sort -------------------------------
-//like sort a hand of cards,when add a new one(i move forward),move the number who bigger than p[i] to the right
-//especially notify the begining,i starts at 1,not 0,and j must above or equal 0
 
+//--------------------------------------select sort-----------------------------------
+void select_sort(int *p,int n)
+{
+    int i,j,mini,temp;
+    for(i = 0;i<n-1;i++)// 前n-1个位置都是局部最小，那最后一个一定是最大的
+    {
+        mini = i;
+        for(j = i+1;j<n;j++)
+        {
+            if(p[mini]>p[j])
+                mini = j;  //精华，直接用mini作为最小的下标，就不用原思路：设置两个变量，
+                           //一个记录最小值，一个记录下标
+        }
+
+        temp = p[i];
+        p[i] = p[mini];
+        p[mini]=temp;
+    }
+
+}
+
+
+//--------------------------------------insert sort -----------------------------------------
+//类比摸牌齐牌，当摸一张新牌起来（即i+1），从后往前比，当手中的牌比摸起来的牌大就往后移，停止移动后的位置就是
+//摸起来的牌该在的位置
+//该算法默认前面的是有序的，是从有序中插入
 void insert_sort(int *p,int length)
 {
    int i,temp,j;
@@ -35,37 +56,39 @@ void insert_sort(int *p,int length)
         j = i-1;
         while(j>=0&&p[j]>temp)
         {
-            p[j+1] = p[j];
+            p[j+1] = p[j];//第一步就将p[i]覆盖掉
             j--;
         }
-        p[j+1] = temp;
+        p[j+1] = temp;//是p[j+1]不是p[j]
 
    }
 
 }
 
+
 //----------------------------------------shell sort----------------------------------
 //希尔排序是插入排序的进化版时间复杂度突破n^2  gap 是精华，这里的算法实现不是按照gap来分一组，一组一组的
 //插入排序做完，从for循环可以看出，当i++后，并不是原gap组的元素
+//
 void shell_sort(int *p,int length)
 {
     int gap = length/2;
     int i,j,temp;
-    while(gap>=1)
+    while(gap>=1)//gap为1时即为普通插入排序
     {
-        for(i = gap;i<length;i++)
+        for(i = gap;i<length;i++)//这里是i++而不是i+=gap，就说明不是一组一组的用insert sort
         {
             temp = p[i];
             j = i-gap;
-            while(j>=0&&p[j]>temp)
+            while(j>=0&&p[j]>temp) //j可以等于0
             {
                 p[j+gap] = p[j];
-                j = j-gap;
+                j = j-gap;//别忘了j要变，不然循环一直出不去
             }
-            p[j+gap] = temp;
+            p[j+gap] = temp; 
 
         }
-        gap = gap/2;
+        gap = gap/2; //使得算法不是n^2时间复杂度
     }
 
 }
@@ -77,8 +100,8 @@ void shell_sort(int *p,int length)
 //quick sort函数调用Parition函数时，传入的参数也是pivot-1和pivot+1而不是pivot本身
 nt Paritition(int *p,int low,int high)
 {
-    int target =p[low];
-    while(low<high)
+    int target =p[low];//将传入数组的第一个数作为最后的分界点数
+    while(low<high)//终止时low==high
     {
         while(low<high &&p[high]>=target) high--;
         p[low] = p[high];
@@ -86,8 +109,7 @@ nt Paritition(int *p,int low,int high)
         p[high]=p[low];
     }
     p[low]=target;
-    show_array(p);
-    return low;
+    return low;//注意要返回low，即分界点的坐标
 }
 
 void quick_sort(int *p,int low,int high)
@@ -104,24 +126,30 @@ void quick_sort(int *p,int low,int high)
 
 
 
-int main()
+void main()
 {
-    int n,i;
+    int n;
+    int *p;
     scanf("%d",&n);
-    int *p = (int *)malloc(sizeof(int)*n);
-    for(i = 0;i<n;i++)
+    p =(int *)malloc(sizeof(int)*n);
+    for(int i = 0; i<n; i++)
     {
         scanf("%d",&p[i]);
     }
 
-    //bubble_sort(p,n);   //way of sort
-
-    for(i = 0;i<n;i++)
+    //bubble_sort(p,n);
+    //select_sort(p,n);
+    //shell_sort(p,n);
+    //quick_sort(p,0,n-1);
+    
+    for(int i = 0; i<n; i++)
     {
-        printf("%d ",p[i]);
+        printf("%d ",*(p+i));
+
     }
-    return 0;
+
 }
+
 
 
 
