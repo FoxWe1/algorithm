@@ -130,7 +130,8 @@ void move(int n,int start,int temp,int end)
     {
         move (n-1,start,end,temp); //1、将其上方的n-1块通过end作为中转移动到temp处
         print(start,end);	//2、将暴露在最上方的第n块直接移动到end处
-        move(n-1,temp,end,start);//3、n-1个在temp，所以temp作为start，经过end作为temp移动到start处
+       	//move(n-1,temp,end,start);//3、n-1个在temp，所以temp作为start，经过end作为temp移动到start处
+	move(n-1,temp,start,end);//3、n-1个在temp，所以temp作为start，以目标为导向，最后是要在end，所以以start为temp移动到end
     }
 }
 
