@@ -98,13 +98,13 @@ void shell_sort(int *p,int length)
 //quick sort函数调用Partition
 //注意主函数调用quicksort时，参数为p,0,n-1而不是n
 //quick sort函数调用Parition函数时，传入的参数也是pivot-1和pivot+1而不是pivot本身
-nt Paritition(int *p,int low,int high)
+int Paritition(int *p,int low,int high)
 {
     int target =p[low];//将传入数组的第一个数作为最后的分界点数
     while(low<high)//终止时low==high
     {
         while(low<high &&p[high]>=target) high--;
-        p[low] = p[high];
+        p[low] = p[high];//注意这里别写反了，第一次是从右往左找到第一个比target小的，移到左边
         while(low<high&&p[low]<=target) low++;
         p[high]=p[low];
     }
