@@ -54,12 +54,12 @@ void insert_sort(int *p,int length)
    {
         temp = p[i];
         j = i-1;
-        while(j>=0&&p[j]>temp)
+        while(j>=0&&p[j]>temp)//不是p[j]>p[i]，因为第一次后p[i]就被p[j]覆盖了
         {
             p[j+1] = p[j];//第一步就将p[i]覆盖掉
             j--;
         }
-        p[j+1] = temp;//是p[j+1]不是p[j]
+        p[j+1] = temp;//是p[j+1]不是p[j]，最后跳出循环后p[j]指向的是比temp小的数
 
    }
 
