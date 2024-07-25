@@ -1,2 +1,6 @@
 hello this is branch test file
+<<<<<<< HEAD
 this is main's modify
+=======
+this is tree1's modify
+>>>>>>> tree1
